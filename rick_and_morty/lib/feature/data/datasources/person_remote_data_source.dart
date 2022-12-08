@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:rick_and_morty/core/error/exception.dart';
 import 'package:rick_and_morty/feature/data/models/person_model.dart';
 import 'package:http/http.dart' as http;

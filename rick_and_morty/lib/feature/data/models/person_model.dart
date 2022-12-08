@@ -42,6 +42,7 @@ class PersonModel extends PersonEntity {
       type: json['type'],
     );
   }
+
   Map<String, dynamic> toJSON() => {
         'id': id,
         'name': name,
