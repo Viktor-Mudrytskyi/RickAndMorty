@@ -30,7 +30,7 @@ class PersonModel extends PersonEntity {
   factory PersonModel.fromJSON(Map<String, dynamic> json) {
     return PersonModel(
       created: DateTime.parse(json['created'] as String),
-      episode: (json['episode'] as List<String>).map((e) => e).toList(),
+      episode: (json['episode'] as List<dynamic>).map((e) => e.toString()).toList(),
       gender: json['gender'],
       id: json['id'],
       image: json['image'],
@@ -46,7 +46,7 @@ class PersonModel extends PersonEntity {
   Map<String, dynamic> toJSON() => {
         'id': id,
         'name': name,
-        'created': created,
+        'created': created.toIso8601String(),
         'episode': episode,
         'gender': gender,
         'image': image,

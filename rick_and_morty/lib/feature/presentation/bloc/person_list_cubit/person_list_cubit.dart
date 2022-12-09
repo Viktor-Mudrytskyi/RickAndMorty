@@ -18,7 +18,7 @@ class PersonListCubit extends Cubit<PersonState>{
     }
     emit(PersonLoading(oldPersonsList: oldPersons,isFirstFetched: page==1));
     final failureOrPErson=await getAllPersons.call(PagePersonParams(page: page));
-    failureOrPErson.fold((error) => PersonError(message: _failType(error)), (person) {
+    failureOrPErson.fold((error) => emit(PersonError(message: _failType(error))), (person) {
       page++;
       final persons=(state as PersonLoading).oldPersonsList;
       persons.addAll(person);

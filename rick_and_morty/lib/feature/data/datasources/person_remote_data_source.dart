@@ -20,25 +20,31 @@ class PersonRemoteDataSourceImpl implements PersonRemoteDataSource {
   PersonRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<List<PersonModel>> getAllPersons(int page) => _getPersonFromUrl(
-      'https://rickandmortyapi.com/api/character/?page=$page');
+  Future<List<PersonModel>> getAllPersons(int page) =>
+      _getFromUrl('https://rickandmortyapi.com/api/character/?page=$page');
 
   @override
-  Future<List<PersonModel>> searchPerson(String query) => _getPersonFromUrl(
-      'https://rickandmortyapi.com/api/character/?name=$query');
+  Future<List<PersonModel>> searchPerson(String query) =>
+      _getFromUrl('https://rickandmortyapi.com/api/character/?name=$query');
 
-  Future<List<PersonModel>> _getPersonFromUrl(String url) async {
+  Future<List<PersonModel>> _getFromUrl(String url) async {
     log(url);
-    final response = await client.get(
-      Uri.parse(url),
-      headers: {'Content-type': 'application/json'},
-    );
-    if (response.statusCode == 200) {
-      final persons = jsonDecode(response.body);
-      return (persons['results'] as List)
-          .map((e) => PersonModel.fromJSON(e))
-          .toList();
-    } else {
+    try {
+      final response = await client.get(
+        Uri.parse(url),
+        headers: {'Content-type': 'application/json'},
+      );
+      if (response.statusCode == 200) {
+        final persons = jsonDecode(response.body);
+        return (persons['results'] as List)
+            .map((e) => PersonModel.fromJSON(e))
+            .toList();
+      } else {
+        log('Server Exception');
+        throw ServerException();
+      }
+    } catch (e) {
+      log('Server Exception');
       throw ServerException();
     }
   }
