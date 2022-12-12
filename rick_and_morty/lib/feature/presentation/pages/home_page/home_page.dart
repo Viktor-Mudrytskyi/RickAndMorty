@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:rick_and_morty/locator_service.dart';
 import 'widgets/home_page_widgets.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,7 +13,9 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showSearch(context: context, delegate: CustomSearchDelegate());
+            },
             icon: const Icon(
               Icons.search,
               color: Colors.white,
@@ -21,7 +23,7 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: PersonsList(),
+      body: PersonsList(networkInfo: sl(),),
     );
   }
 }

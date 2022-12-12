@@ -1,20 +1,21 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rick_and_morty/core/platform/network_info.dart';
 import 'package:rick_and_morty/feature/domain/entities/person_entity.dart';
 import 'package:rick_and_morty/feature/presentation/bloc/person_list_cubit/person_list_cubit.dart';
 import 'package:rick_and_morty/feature/presentation/bloc/person_list_cubit/person_list_state.dart';
 import 'package:rick_and_morty/feature/presentation/pages/home_page/widgets/person_card.dart';
 
 class PersonsList extends StatelessWidget {
-  PersonsList({super.key});
+  final NetworkInfo networkInfo;
+  PersonsList({super.key, required this.networkInfo});
   final scrollCon = ScrollController();
   void setupScrollCon(BuildContext context) {
-    scrollCon.addListener(() {
+    scrollCon.addListener(() async {
       if (scrollCon.position.atEdge) {
-        if (scrollCon.position.pixels != 0) {
+        if (scrollCon.position.pixels != 0 && await networkInfo.isConnected) {
           log('trigger');
           context.read<PersonListCubit>().loadPerson();
         }
@@ -59,7 +60,7 @@ class PersonsList extends StatelessWidget {
               return PersonCard(person: persons[index]);
             } else {
               log('Circular');
-              Timer(const Duration(milliseconds: 30), () {
+              Timer(const Duration(milliseconds: 5), () {
                 scrollCon.jumpTo(scrollCon.position.maxScrollExtent);
               });
               return const Center(

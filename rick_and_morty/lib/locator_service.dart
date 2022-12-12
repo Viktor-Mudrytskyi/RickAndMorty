@@ -19,7 +19,7 @@ Future<void>init()async {
   sl.registerFactory(() => PersonListCubit(getAllPersons: sl()));
   sl.registerFactory(() => PersonSearchBloc(searchPerson: sl()));
   //UseCases
-  sl.registerLazySingleton(() => GetAllPersons(personRepository: sl()));
+  sl.registerLazySingleton(() => GetAllPersons(personRepository: sl<PersonRepository>()));
   sl.registerLazySingleton(() => SearchPerson(personRepository: sl()));
 
   //Repository

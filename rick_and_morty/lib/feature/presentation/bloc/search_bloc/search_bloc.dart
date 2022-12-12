@@ -12,8 +12,8 @@ class PersonSearchBloc extends Bloc<PersonSearchEvent, PersonSearchState> {
       emit(PersonSearchLoading());
       final failOrPerson =
           await searchPerson.call(SearchPersonParams(query: event.personQuery));
-      failOrPerson.fold((fail) => PersonSearchError(message: _failType(fail)),
-          (persons) => PersonSearchLoaded(persons: persons));
+      failOrPerson.fold((fail) => emit(PersonSearchError(message: _failType(fail))),
+          (persons) => emit(PersonSearchLoaded(persons: persons)));
     });
   }
   String _failType(Failure failure) {
