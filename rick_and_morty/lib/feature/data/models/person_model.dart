@@ -38,7 +38,7 @@ class PersonModel extends PersonEntity {
       name: json['name'],
       origin: LocationModel.fromJSON(json['origin']),
       species: json['species'],
-      status: json['status'],
+      status: json['status'], 
       type: json['type'],
     );
   }
